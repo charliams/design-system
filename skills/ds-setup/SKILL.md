@@ -1,3 +1,8 @@
+---
+description: "Add the design system stylesheet and rules to a project"
+disable-model-invocation: true
+---
+
 Add the charliejmwilliams.com design system to this project.
 
 This command does two things:
@@ -29,7 +34,11 @@ Do **not** download, copy, or bundle `ui.css` locally.
 
 ## Step 2 — Create or update CLAUDE.md
 
-In the project root, append the following block to `CLAUDE.md` (create the file if it does not exist). If a design system section already exists in `CLAUDE.md`, update it in place rather than duplicating it.
+In the project root, check if `CLAUDE.md` exists.
+
+**If it exists:** Search for a `## Design system` section. If found, update it in place. If not found, append the block below.
+
+**If it does not exist:** Create `CLAUDE.md` with the block below.
 
 ```markdown
 ## Design system
@@ -47,6 +56,7 @@ Rules:
   colours, spacing, and typography. Do not hardcode hex values that duplicate tokens.
 - Use component classes (`.btn`, `.card`, `.card-flat`, `.input`, `.badge`, etc.) rather
   than writing custom equivalents.
+- No CSS frameworks (Tailwind, Bootstrap), no CSS-in-JS, no CSS Modules.
 - When migrating existing CSS: replace hardcoded values with tokens/classes,
   then delete the now-redundant CSS rules.
 ```

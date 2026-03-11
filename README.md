@@ -5,7 +5,7 @@ Charlie's personal design system and Claude Code skills store.
 The design system powers all apps at `charliejmwilliams.com`. This repo serves two purposes:
 
 1. **Style reference** — `STYLE_GUIDE.md` is the canonical source for all CSS tokens and component classes.
-2. **Skills store** — `commands/` holds Claude Code slash commands synced to `~/.claude/commands/` on any machine.
+2. **Skills store** — `skills/` holds Claude Code slash commands synced to `~/.claude/skills/` on any machine.
 
 ---
 
@@ -24,7 +24,8 @@ Never download or bundle `ui.css` locally — always load from CDN.
 1. Link to `charliejmwilliams.com/ui.css` externally — do not copy it locally.
 2. Use CSS custom properties for colours, spacing, and typography — no hardcoded hex values.
 3. Use component classes (`.btn`, `.card`, `.card-flat`, `.input`, `.badge`) — don't write custom equivalents.
-4. When migrating CSS: replace hardcoded values with tokens/classes, then delete the redundant rules.
+4. No CSS frameworks (Tailwind, Bootstrap), no CSS-in-JS, no CSS Modules.
+5. When migrating CSS: replace hardcoded values with tokens/classes, then delete the redundant rules.
 
 See [`STYLE_GUIDE.md`](./STYLE_GUIDE.md) for the full token reference and component class documentation.
 
@@ -32,16 +33,25 @@ See [`STYLE_GUIDE.md`](./STYLE_GUIDE.md) for the full token reference and compon
 
 ## Claude Code skills
 
-Three slash commands are available once installed:
+Four slash commands are available once installed:
 
 | Command | What it does |
 |---------|-------------|
 | `/ds-migrate` | Migrates an existing app's UI to the design system (tokens, classes, removes redundant CSS) |
 | `/ds-new-webapp` | Architects and scaffolds a new Static HTML / Flask / Next.js app using the design system |
 | `/ds-setup` | Adds the stylesheet link and design system rules to any existing project's `CLAUDE.md` |
+| `/ds-audit` | Audits a project for design system compliance (read-only, produces a report) |
 
 ### Install (first time on a new machine)
 
+**macOS / Linux:**
+```bash
+git clone https://github.com/charliams/design-system ~/design-system
+cd ~/design-system
+./install.sh
+```
+
+**Windows (PowerShell):**
 ```powershell
 git clone https://github.com/charliams/design-system "$env:USERPROFILE\design-system"
 cd "$env:USERPROFILE\design-system"
@@ -50,9 +60,11 @@ cd "$env:USERPROFILE\design-system"
 
 ### Update (after `git pull`)
 
-```powershell
+```bash
 git pull
-.\sync.ps1
+./sync.sh        # macOS / Linux
+# or
+.\sync.ps1       # Windows
 ```
 
-Skills are copied to `~/.claude/commands/` and are immediately available in all Claude Code sessions.
+Skills are copied to `~/.claude/skills/` and are immediately available in all Claude Code sessions.

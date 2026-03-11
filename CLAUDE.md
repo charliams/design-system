@@ -1,35 +1,33 @@
 # design-system
 
-This is the charliejmwilliams.com design system repository and Claude Code skills store.
+Design system reference and Claude Code skills for charliejmwilliams.com.
 
-## Repository structure
+## Source of truth
 
-| Path | Purpose |
-|------|---------|
-| `STYLE_GUIDE.md` | Canonical token and component reference — the source of truth |
-| `commands/` | Claude Code user-level skills, synced to `~/.claude/commands/` |
-| `commands/ds-migrate.md` | Skill: migrate an existing app to the design system |
-| `commands/ds-new-webapp.md` | Skill: architect a new webapp from scratch |
-| `commands/ds-setup.md` | Skill: add design system to an existing project's CLAUDE.md |
-| `install.ps1` | Run once on a new machine to install skills |
-| `sync.ps1` | Run after `git pull` to update installed skills |
-| `README.md` | Human-readable documentation for GitHub |
+The canonical tokens and components are in @STYLE_GUIDE.md.
+The live stylesheet at `https://charliejmwilliams.com/ui.css` must match STYLE_GUIDE.md.
 
-## Rules when editing skill files
+## Rules for editing skills
 
-- Skill files in `commands/` are prompts that Claude Code executes. Write them as clear, numbered, imperative steps.
-- Every skill that involves UI work must include a step that fetches the style guide at runtime:
+- Skills live in `skills/<name>/SKILL.md`. Each must have YAML frontmatter with `description` and `disable-model-invocation: true`.
+- Every skill that involves UI work must fetch the style guide at runtime:
   `https://raw.githubusercontent.com/charliams/design-system/main/STYLE_GUIDE.md`
-- Skills should be self-contained: assume no prior context from the user beyond what they typed.
-- Do not embed large chunks of the style guide into skill files — fetch at runtime so skills stay in sync automatically.
+- Do not embed token values into skill files — fetch at runtime so skills stay in sync.
+- Skills are imperative, numbered steps. Assume no prior context from the user.
+- Use `$ARGUMENTS` for user-provided inputs (project path, project name, etc.).
 
-## Rules when editing the style guide
+## Rules for editing the style guide
 
-- `STYLE_GUIDE.md` is the source of truth for tokens and components.
-- The live stylesheet at `https://charliejmwilliams.com/ui.css` must match `STYLE_GUIDE.md`.
-- If you add or change tokens or components in `STYLE_GUIDE.md`, note that `ui.css` will need to be updated separately on the server.
-- Do not modify token values or component class names without explicit instruction from the user.
+- Do not rename tokens or component classes without explicit user instruction.
+- If you change STYLE_GUIDE.md, note that `ui.css` needs separate deployment on the server.
+
+## Constraints
+
+- Never add Tailwind, Bootstrap, or any third-party CSS framework to any project using this design system.
+- Never hardcode colour hex values — always use CSS custom properties.
+- The stylesheet URL is `https://charliejmwilliams.com/ui.css` — do not use any other URL.
+- No CSS Modules, styled-components, or CSS-in-JS in consuming projects. Use design system classes directly.
 
 ## After editing skills
 
-Run `.\sync.ps1` to deploy updated skill files to `~/.claude/commands/` on this machine.
+Run `./install.sh` (macOS/Linux) or `.\install.ps1` (Windows) to deploy to `~/.claude/skills/`.
